@@ -38,3 +38,8 @@ build/
 /.idea/
 arthas-output/
 LOG_HOME_IS_UNDEFINED/
+
+### macOS ###
+.DS_store
+**.DS_store
+.DS_store?
