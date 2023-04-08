@@ -11,12 +11,9 @@ public class FlowControl {
 
     public static void main(String[] args) throws InterruptedException {
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 处理请求
-                handleRequest();
-            }
+        new Thread(() -> {
+            // 处理请求
+            handleRequest();
         }).start();
 
         // 模拟 200 次请求
@@ -38,7 +35,7 @@ public class FlowControl {
             Object request = queue.poll();
             if (request != null) {
                 // 处理请求
-                System.out.println("处理请求：" + request.toString());
+                System.out.println("处理请求：" + request);
                 // 模拟处理时间
                 try {
                     Thread.sleep(500);

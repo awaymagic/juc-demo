@@ -8,7 +8,7 @@ import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
 public class OrderDemo {
-    private static final DelayQueue<Order> delayQueue = new DelayQueue<>();
+    private static final DelayQueue<Order> DELAY_QUEUE = new DelayQueue<>();
 
     static class Order implements Delayed {
         private String orderId;
@@ -37,8 +37,7 @@ public class OrderDemo {
 
         @Override
         public long getDelay(TimeUnit unit) {
-            long delay = unit.convert(expireTime.toInstant().toEpochMilli() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-            return delay;
+            return unit.convert(expireTime.toInstant().toEpochMilli() - System.currentTimeMillis(), TimeUnit.MILLISECONDS);
         }
 
         @Override
@@ -58,11 +57,11 @@ public class OrderDemo {
         //订单延时5s消费
         ZonedDateTime expireTime = ZonedDateTime.now(ZoneId.of("UTC")).plus(5, ChronoUnit.SECONDS);
         Order order = new Order(orderId, expireTime);
-        delayQueue.put(order);
+        DELAY_QUEUE.put(order);
         System.out.println("订单已创建：" + order.getOrderId());
 
         //阻塞
-        Order orderFromQueue = delayQueue.take();
+        Order orderFromQueue = DELAY_QUEUE.take();
         if (orderFromQueue == order) {
             // 从数据库查询订单的支付状态
             System.out.println("订单延时消费：" + order.getOrderId());

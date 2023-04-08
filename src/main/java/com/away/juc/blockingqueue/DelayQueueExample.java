@@ -22,9 +22,9 @@ public class DelayQueueExample {
     }
 
     static class  Order implements Delayed{
-        private String orderId;
-        private long createTime;
-        private long delayTime;
+        private final String orderId;
+        private final long createTime;
+        private final long delayTime;
 
         public Order(String orderId, long createTime, long delayTime) {
             this.orderId = orderId;
@@ -38,7 +38,7 @@ public class DelayQueueExample {
 
         @Override
         public long getDelay(TimeUnit unit) {
-            long diff = createTime + delayTime - System.currentTimeMillis();
+            long diff = (createTime + delayTime) - System.currentTimeMillis();
             return unit.convert(diff, TimeUnit.MILLISECONDS);
         }
 
